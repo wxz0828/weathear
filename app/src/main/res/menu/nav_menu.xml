@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/add_city"
+            android:icon="@drawable/add_city"
+            android:title="切换城市" />
+        <item
+            android:id="@+id/multi_city"
+            android:icon="@drawable/multi_city"
+            android:title="城市管理" />
+        <item
+            android:id="@+id/setting"
+            android:icon="@drawable/setting"
+            android:title="设置" />
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/about"
+            android:title="关于" />
+        <item
+            android:id="@+id/exit"
+            android:icon="@drawable/out"
+            android:title="退出" />
+    </group>
+
+</menu>
