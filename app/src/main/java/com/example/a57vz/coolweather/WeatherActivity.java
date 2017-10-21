@@ -2,10 +2,12 @@ package com.example.a57vz.coolweather;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -41,8 +43,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class WeatherActivity extends BaseActivity {
-    public String SweatherId;
-    public String tempWeather;
     public DrawerLayout drawerLayout;
 
     private Button navButton;
@@ -96,14 +96,13 @@ public class WeatherActivity extends BaseActivity {
         sportText = (TextView) findViewById(R.id.sport_text);
         bingPicImg = (ImageView) findViewById(R.id.bing_pic_img);
 
-       // bingPicImg.setImageResource(R.drawable.bg_13);
-//        int ImageId = SetImage.getWeatherTypeBackgroundID("多云");
-//        bingPicImg.setImageResource(ImageId);
 
         //得到定位的城市
         Intent intent = getIntent();
         String weatherLBSId = intent.getStringExtra("weather_LBSid");
+
         if (!TextUtils.isEmpty(weatherLBSId)) {
+            LogUtil.d("WLBS",weatherLBSId);
             requestWeather(weatherLBSId);
         }
 
@@ -122,23 +121,16 @@ public class WeatherActivity extends BaseActivity {
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
 
-//         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//                 String weatherString = prefs.getString("weather", null);
-//            if (weatherString != null) {
-//                //有缓存时直接解析天气数据
-//                Weather weather = Utility.handleWeatherResponse(weatherString);
-//                mWeatherId = weather.basic.weatherId;
-//                showWeatherInfo(weather);
-//
-//            } else {
-        //无缓存时去服务器查询
-       mWeatherId = getIntent().getStringExtra("weather_id");//通过ChooseAreaFragment中当县级别时传递过来的weatherId
+
+        //服务器查询
+        mWeatherId = getIntent().getStringExtra("weather_id"); //通过ChooseAreaFragment中当县级别时传递过来的weatherId
        // String weatherId = getIntent().getStringExtra("weather_id");
         if (!TextUtils.isEmpty(mWeatherId)) {
             weatherLayout.setVisibility(View.INVISIBLE);
+            LogUtil.d("天气2",mWeatherId);
             requestWeather(mWeatherId);
-   //     }
- }
+     }
+
         /**
          * 下拉刷新
          * */
@@ -146,18 +138,8 @@ public class WeatherActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 requestWeather(mWeatherId);
-                // loadBingPic();
             }
         });
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//        String bingPic = prefs.getString("bing_pic", null);
-//      //  int i = R.drawable.night;
-//        if (bingPic != null) {
-//            Glide.with(this).load(bingPic).into(bingPicImg);
-//        } else {
-//           // Glide.with(this).load(R.drawable.night).into(bingPicImg);
-//           loadBingPic();
-//        }
 
         /**
          * 滑动菜单
@@ -211,10 +193,10 @@ public class WeatherActivity extends BaseActivity {
                     @Override
                     public void run() {
                         if (weather != null && "ok".equals(weather.status)) {
-//                            SharedPreferences.Editor editor = PreferenceManager.
-//                                    getDefaultSharedPreferences(WeatherActivity.this).edit();
-//                            editor.putString("weather", responseText);
-//                            editor.apply();
+                            SharedPreferences.Editor editor = PreferenceManager.
+                                    getDefaultSharedPreferences(WeatherActivity.this).edit();
+                            editor.putString("weather", responseText);
+                            editor.apply();
                             mWeatherId = weather.basic.weatherId;
                             showWeatherInfo(weather);
                         } else {
@@ -239,12 +221,10 @@ public class WeatherActivity extends BaseActivity {
             }
 
         });
-        // loadBingPic();
-        //  Glide.with(this).load(R.drawable.night).into(bingPicImg);
     }
 
     /**
-     * 加载必应每日一图
+     * 加载网络图片
      */
 //    private void loadBingPic() {
 //        String requestBingPic = "http://guolin.tech/api/bing_pic";
@@ -281,9 +261,10 @@ public class WeatherActivity extends BaseActivity {
         String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
         LogUtil.d("多云",weatherInfo);
+
         //设置相对应的天气图片
         int imageId = SetImage.getWeatherTypeBackgroundID(weatherInfo);
-       // bingPicImg.setImageResource(imageId);
+
         Glide.with(WeatherActivity.this).load(imageId).into(bingPicImg);  //加载图片
 
         titleCity.setText(cityName);

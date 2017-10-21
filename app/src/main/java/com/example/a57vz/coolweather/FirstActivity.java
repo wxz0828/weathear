@@ -3,8 +3,10 @@ package com.example.a57vz.coolweather;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +24,7 @@ public class FirstActivity extends AppCompatActivity {
     private TextView countDown;
     private MyCountDownTimer downTimer;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,7 @@ public class FirstActivity extends AppCompatActivity {
         // 需要在布局填充完成后才能获取到View的尺寸
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onGlobalLayout() {
                 playAnim();

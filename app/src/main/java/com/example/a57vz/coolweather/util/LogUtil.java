@@ -4,6 +4,7 @@ import android.util.Log;
 
 /**
  * Created by 57VZ on 2017/4/28.
+ * 日志工具
  */
 
 public class LogUtil {

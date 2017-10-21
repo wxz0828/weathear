@@ -4,6 +4,7 @@ import com.example.a57vz.coolweather.R;
 
 /**
  * Created by 57VZ on 2017/5/2.
+ * 设置图片背景
  */
 
 public class SetImage {

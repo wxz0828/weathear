@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Created by 57VZ on 2017/4/25.
+ * 总的实例类用来引用各个实体类
  */
 
 public class Weather {

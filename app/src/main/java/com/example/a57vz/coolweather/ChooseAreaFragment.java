@@ -118,7 +118,7 @@ public class ChooseAreaFragment extends Fragment {
                     queryCounties();
                 }else if (currentLevel == LEVEL_COUNTY){   //当级别是县
                     String weatherId = countyList.get(position).getWeatherId();  // 得到县级的id
-                     if (getActivity() instanceof ChooseCity){   //判断是否属于MainActivity类
+                     if (getActivity() instanceof ChooseCity){   //判断是否属于ChooseCity类
                          Intent intent = new Intent(getActivity(),WeatherActivity.class);
                          intent.putExtra("weather_id",weatherId);
                          startActivity(intent);
@@ -211,7 +211,7 @@ public class ChooseAreaFragment extends Fragment {
             int provinceCode = selectedProvince.getProvinceCode();
             int cityCode = selectedCity.getCityCode();
             String address = "http://guolin.tech/api/china/" + provinceCode + "/" + cityCode;
-          //  Log.e(TAG, address);
+            //  Log.e(TAG, address);
             queryFromServer(address,"county");
         }
 
@@ -238,7 +238,6 @@ public class ChooseAreaFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 String responseText = response.body().string();
 
-                //Log.d(TAG, "县级"+responseText);
                 LogUtil.d(TAG,"县级"+responseText);
 
                 boolean result = false;
